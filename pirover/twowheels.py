@@ -1,10 +1,10 @@
 import time
 
-def callback(left, right):
-    print left, right
+def testCallback(left, right):
+    print "TW:", left, right
 
 class RobotController(object):
-    def __init__(self, motorCallback=callback):
+    def __init__(self, motorCallback=None):
         self.movingTime = 500 # parameter (ms)
         self.turningTime = 300 # parameter (ms)
         self.interval = 200 # parameter (ms)
@@ -13,7 +13,7 @@ class RobotController(object):
         self.turnRatio = 100 # parameter (0..100)
         self.balance = 50 # parameter (0..100)
         self.cameraFormat = "jpg" # "jpg" or "gif" or "png"
-        self.acceleration = 10 # parameter(1..100)
+        self.acceleration = 20 # parameter(1..100)
         self.moveTimeout = 0 # private
         self.lastMSec = 0 # private
         self.currentLeft = 0 # private
@@ -80,8 +80,8 @@ class RobotController(object):
         self.setTarget(left, right)
         self.moveTimeout = int(time.time()*1000) + self.movingTime
 
-    def setOption(self, key, val):
-        key = key.replace(' ','').lower()
+    def setOption(self, _k, val):
+        key = _k.encode('utf-8').replace(' ','').lower()
         if key == 'movingtime':
             self.movingTime = int(val)
         elif key == 'turningtime':
@@ -104,10 +104,10 @@ class RobotController(object):
             if val == 'jpg' or val == 'gif' or val == 'png':
                 self.cameraFormat = val
         else:
-            print "setOption(unknown):"+key+"="+val
+            print "Unknown option:"+key+"="+val
 
 if __name__ == '__main__':
-    rc = RobotController()
+    rc = RobotController(motorCallback=testCallback)
     rc.forward()
     for i in range(10):
         rc.updateCurrent()

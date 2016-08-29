@@ -36,6 +36,7 @@ class RemoteSensorServer(object):
   def start(self):
     if self.socket is not None:
       return
+    print "RemoteSensorServer start"
     self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self.clients = set([self.socket])
     backlog = 10
@@ -45,13 +46,14 @@ class RemoteSensorServer(object):
       self.socket.listen(backlog)
 #      print "Start select"
       while self.socket is not None:
-        rready, wready, xready = select.select(self.clients, [], [], 1)
+        rready, wready, xready = select.select(self.clients, [], [], 0.1)
         if not rready and not wready and not xready:
           if self.timeoutCallback is not None:
             self.timeoutCallback(self)
         for sock in rready:
           if sock is self.socket:
             conn, address = self.socket.accept()
+            print "Attach client from", address
             conn.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
             self.clients.add(conn)
             message = self.makeSensorUpdate(self.sensors, True)
@@ -75,7 +77,7 @@ class RemoteSensorServer(object):
       self.stop()
 
   def detachClient(self, socket):
-    print "detachClient"
+    print "Detach client"
     socket.close()
     self.clients.remove(socket)
 
