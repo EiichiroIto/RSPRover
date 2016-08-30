@@ -10,7 +10,7 @@ class RobotController(object):
         self.interval = 200 # parameter (ms)
         self.leftPower = 100 # parameter (-100..100)
         self.rightPower = 100 # parameter (-100..100)
-        self.turnRatio = 100 # parameter (0..100)
+        self.turnRatio = 50 # parameter (0..100)
         self.balance = 50 # parameter (0..100)
         self.cameraFormat = "jpg" # "jpg" or "gif" or "png"
         self.acceleration = 20 # parameter(1..100)
