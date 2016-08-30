@@ -63,14 +63,16 @@ class PiRover(object):
         if status > 0:
             print "Error: "+output
             return
+        f = None
         try:
             f = open(filename, "rb")
             data = f.read()
         except:
             print "Error in reading output:"+filename
         finally:
-            f.close()
-            self.server.camera(self.controller.cameraFormat, data)
+            if f is not None:
+                f.close()
+                self.server.camera(self.controller.cameraFormat, data)
 
     def command(self, _cmd):
         cmd = _cmd.encode('utf-8').lower().replace(' ','')

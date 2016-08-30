@@ -63,14 +63,14 @@ class RobotController(object):
         self.moveTimeout = int(time.time()*1000) + self.movingTime
 
     def left(self):
-        left = self.leftPower
+        left = self.leftPower * self.turnRatio / 100.0
         right = self.rightPower * self.turnRatio / -100.0
         self.setTarget(left, right)
         self.moveTimeout = int(time.time()*1000) + self.turningTime
 
     def right(self):
         left = self.leftPower * self.turnRatio / -100.0
-        right = self.rightPower
+        right = self.rightPower * self.turnRatio / 100.0
         self.setTarget(left, right)
         self.moveTimeout = int(time.time()*1000) + self.turningTime
 
