@@ -1,2 +1,0 @@
-#!/bin/sh
-/usr/bin/raspistill -t 150 -ex auto -awb auto -o takeshot.$1 -vf -hf -w 320 -h 240

@@ -57,7 +57,7 @@ class PiRover(object):
 
     def takeShot(self):
         print "take shot"
-        (status,output) = commands.getstatusoutput('./takeshot '+self.controller.cameraFormat)
+        (status,output) = commands.getstatusoutput('./takeshot.sh '+self.controller.cameraFormat)
         print output
         filename = "takeshot."+self.controller.cameraFormat
         if status > 0:
