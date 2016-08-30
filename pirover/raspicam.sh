@@ -7,5 +7,5 @@ while true
 do
     /usr/bin/raspistill -t 150 -ex auto -awb auto -o raspicam.tmp -vf -hf -w 320 -h 240
     mv raspicam.tmp raspicam.jpg
-    sleep 1
+    sleep 0.5
 done
