@@ -1926,17 +1926,29 @@ msgid "Show IP Address"
 msgstr "IPアドレスをひょうじする"
 
 msgid "Stop Hosting Mesh"
-msgstr "Meshホスティングをとめる"
+msgstr "メッシュをとめる"
 
 msgid "Leave Mesh"
-msgstr "Meshからはなれる"
+msgstr "メッシュからはなれる"
 
 msgid "Host Mesh"
-msgstr "Meshホスティングをはじめる"
+msgstr "メッシュをはじめる"
 
 msgid "Join Mesh"
-msgstr "Meshにくわわる"
+msgstr "メッシュにくわわる"
 
-msgid "set remote image"
-msgstr "えんかくイメージにする"
+msgid "set received photo"
+msgstr "じゅしんしたしゃしんにする"
+
+msgid "previous costume"
+msgstr "まえのコスチュームにする"
+
+msgid "duplicate costume"
+msgstr "コスチュームをコピーする"
+
+msgid "delete costume"
+msgstr "コスチュームをさくじょする"
+
+msgid "number of costumes"
+msgstr "コスチュームのこすう"
 

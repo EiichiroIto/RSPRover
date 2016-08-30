@@ -1,6 +1,6 @@
 # Raspberry Pi Rover
 #  motor -- using WiringPi2 (GPIO-connected).
-#  camera -- using takeshot script.
+#  camera -- using takephoto script.
 from rsserver import RemoteSensorServer
 from twowheels import RobotController
 import wiringpi as wp
@@ -55,11 +55,11 @@ class PiRover(object):
     def toCallback(self, server):
         self.controller.doOneCycle()
 
-    def takeShot(self):
-        print "take shot"
-        (status,output) = commands.getstatusoutput('./takeshot.sh '+self.controller.cameraFormat)
+    def takePhoto(self):
+        print "take a photo"
+        (status,output) = commands.getstatusoutput('./takephoto.sh '+self.controller.cameraFormat)
         print output
-        filename = "takeshot."+self.controller.cameraFormat
+        filename = "takephoto."+self.controller.cameraFormat
         if status > 0:
             print "Error: "+output
             return
@@ -86,8 +86,8 @@ class PiRover(object):
             self.controller.stop()
         elif cmd == 'quit':
             self.server.stop()
-        elif cmd == 'takeshot':
-            self.takeShot()
+        elif cmd == 'takeaphoto' or cmd == 'takephoto':
+            self.takePhoto()
         else:
             print "Unknown Command=", _cmd
 
