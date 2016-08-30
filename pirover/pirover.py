@@ -3,7 +3,7 @@
 #  camera -- using takeshot script.
 from rsserver import RemoteSensorServer
 from twowheels import RobotController
-import wiringpi2 as wp
+import wiringpi as wp
 import commands
 
 MOTOR_IN1A = 3 # WiringPi2 GPIO pin #
@@ -55,6 +55,23 @@ class PiRover(object):
     def toCallback(self, server):
         self.controller.doOneCycle()
 
+    def takeShot(self):
+        print "take shot"
+        (status,output) = commands.getstatusoutput('./takeshot '+self.controller.cameraFormat)
+        print output
+        filename = "takeshot."+self.controller.cameraFormat
+        if status > 0:
+            print "Error: "+output
+            return
+        try:
+            f = open(filename, "rb")
+            data = f.read()
+        except:
+            print "Error in reading output:"+filename
+        finally:
+            f.close()
+            self.server.camera(self.controller.cameraFormat, data)
+
     def command(self, _cmd):
         cmd = _cmd.encode('utf-8').lower().replace(' ','')
         if cmd == 'forward':
@@ -69,6 +86,8 @@ class PiRover(object):
             self.controller.stop()
         elif cmd == 'quit':
             self.server.stop()
+        elif cmd == 'takeshot':
+            self.takeShot()
         else:
             print "Unknown Command=", _cmd
 
