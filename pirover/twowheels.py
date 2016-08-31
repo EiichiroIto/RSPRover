@@ -6,14 +6,13 @@ def testCallback(left, right):
 class RobotController(object):
     def __init__(self, motorCallback=None):
         self.movingTime = 500 # parameter (ms)
-        self.turningTime = 300 # parameter (ms)
-        self.interval = 200 # parameter (ms)
-        self.leftPower = 100 # parameter (-100..100)
-        self.rightPower = 100 # parameter (-100..100)
-        self.turnRatio = 50 # parameter (0..100)
+        self.movingPower = 100 # parameter (-100..100)
         self.balance = 50 # parameter (0..100)
+        self.turningTime = 300 # parameter (ms)
+        self.turningPower = 50 # parameter (0..100)
+        self.interval = 200 # parameter (ms)
         self.cameraFormat = "jpg" # "jpg" or "gif" or "png"
-        self.acceleration = 20 # parameter(1..100)
+        self.acceleration = 50 # parameter(1..100)
         self.moveTimeout = 0 # private
         self.lastMSec = 0 # private
         self.currentLeft = 0 # private
@@ -57,50 +56,46 @@ class RobotController(object):
         self.moveTimeout = 0
 
     def forward(self):
-        left = self.leftPower * min(self.balance, 50) / 50.0
-        right = self.rightPower * min(100 - self.balance, 50) / 50.0
+        left = self.movingPower * min(self.balance, 50) / 50.0
+        right = self.movingPower * min(100 - self.balance, 50) / 50.0
         self.setTarget(left, right)
         self.moveTimeout = int(time.time()*1000) + self.movingTime
 
     def left(self):
-        left = self.leftPower * self.turnRatio / 100.0
-        right = self.rightPower * self.turnRatio / -100.0
+        left = self.turningPower
+        right = - self.turningPower
         self.setTarget(left, right)
         self.moveTimeout = int(time.time()*1000) + self.turningTime
 
     def right(self):
-        left = self.leftPower * self.turnRatio / -100.0
-        right = self.rightPower * self.turnRatio / 100.0
+        left = - self.turningPower
+        right = self.turningPower
         self.setTarget(left, right)
         self.moveTimeout = int(time.time()*1000) + self.turningTime
 
     def back(self):
-        left = -(self.leftPower * min(self.balance, 50) / 50.0)
-        right = -(self.rightPower * min(100 - self.balance, 50) / 50.0)
+        left = - (self.movingPower * min(self.balance, 50) / 50.0)
+        right = - (self.movingPower * min(100 - self.balance, 50) / 50.0)
         self.setTarget(left, right)
         self.moveTimeout = int(time.time()*1000) + self.movingTime
 
     def setOption(self, _k, val):
         key = _k.encode('utf-8').replace(' ','').lower()
-        if key == 'movingtime':
+        if key == 'movingtime' or key == 'mt':
             self.movingTime = int(val)
-        elif key == 'turningtime':
-            self.turningTime = int(val)
-        elif key == 'leftpower':
-            self.leftPower = min(max(int(val),-100),100)
-        elif key == 'rightpower':
-            self.rightPower = min(max(int(val),-100),100)
-        elif key == 'power':
-            self.leftPower = self.rightPower = min(max(int(val),-100),100)
-        elif key == 'turnRatio':
-            self.turnRatio = min(max(int(val),0),100)
-        elif key == 'balance':
+        elif key == 'movingpower' or key == 'mp':
+            self.movingPower = min(max(int(val),-100),100)
+        elif key == 'balance' or key == 'bl':
             self.balance = min(max(int(val),0),100)
-        elif key == 'interval':
+        elif key == 'turningtime' or key == 'tt':
+            self.turningTime = int(val)
+        elif key == 'turningpower' or key == 'tp':
+            self.turningPower = min(max(int(val),0),100)
+        elif key == 'interval' or key == 'it':
             self.interval = min(max(int(val),0),100)
-        elif key == 'acceleration':
+        elif key == 'acceleration' or key == 'ac':
             self.acceleration = min(max(int(val),0),100)
-        elif key == 'cameraformat':
+        elif key == 'cameraformat' or key == 'ca':
             if val == 'jpg' or val == 'gif' or val == 'png':
                 self.cameraFormat = val
         else:
